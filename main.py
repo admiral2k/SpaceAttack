@@ -28,6 +28,7 @@ YELLOW = (255, 255, 0)
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SpaceAttack!")
 BARRIER = pygame.Rect((WIDTH - 10) / 2, 0, 10, HEIGHT)
+BARRIER_IMAGE = pygame.image.load(os.path.join("Assets", "barrier.png"))
 
 YELLOW_SPACESHIP_IMAGE = pygame.image.load(os.path.join("Assets", "spaceship_yellow.png"))
 YELLOW_SPACESHIP = pygame.transform.rotate(pygame.transform.scale(YELLOW_SPACESHIP_IMAGE, (SPACESHIP_WIDTH, SPACESHIP_HEIGHT)), 90)
@@ -39,14 +40,14 @@ RED_SPACESHIP = pygame.transform.rotate(pygame.transform.scale(RED_SPACESHIP_IMA
 RED_GLOW = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "red_glow.png")),
                                   (SPACESHIP_HEIGHT + 10, SPACESHIP_WIDTH + 10))
 
-BACKGROUND = pygame.image.load(os.path.join("Assets", "space.png"))
+BACKGROUND = pygame.image.load(os.path.join("Assets", "galaxy1.png"))
 BACKGROUND = pygame.transform.scale(BACKGROUND, (WIDTH, HEIGHT))
 
 WINNER_BLACKOUT = pygame.image.load(os.path.join("Assets", "black_alpha.png"))
 WINNER_BLACKOUT = pygame.transform.scale(WINNER_BLACKOUT, (WIDTH, HEIGHT))
 
-BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join("Assets", "Grenade+1.mp3"))
-BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join("Assets", "Gun+Silencer.mp3"))
+BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join("Assets", "hit.wav"))
+BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join("Assets", "laser_shoot.wav"))
 
 
 def draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_health):
@@ -57,7 +58,7 @@ def draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_hea
     red_health_bar = pygame.Rect(red.x, red.y + red.height + 5, red.width / MAX_HEALTH * red_health, 5)
 
     WIN.blit(BACKGROUND, (0, 0))
-    pygame.draw.rect(WIN, BLACK, BARRIER)
+    WIN.blit(BARRIER_IMAGE, (BARRIER.x - BARRIER.width - 10, BARRIER.y))
 
     red_health_text = HEALTH_FONT.render("Health:" + str(red_health), True, RED)
     yellow_health_text = HEALTH_FONT.render("Health:" + str(yellow_health), True, YELLOW)
