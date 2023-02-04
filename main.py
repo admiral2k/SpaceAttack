@@ -43,6 +43,12 @@ BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join("Assets", "Gun+Silencer.mp3"
 
 
 def draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_health):
+    yellow_health_bar_backside = pygame.Rect(yellow.x, yellow.y + yellow.height + 5, yellow.width, 5)
+    red_health_bar_backside = pygame.Rect(red.x, red.y + red.height + 5, red.width, 5)
+
+    yellow_health_bar = pygame.Rect(yellow.x, yellow.y + yellow.height + 5, yellow.width / MAX_HEALTH * yellow_health, 5)
+    red_health_bar = pygame.Rect(red.x, red.y + red.height + 5, red.width / MAX_HEALTH * red_health, 5)
+
     WIN.blit(BACKGROUND, (0, 0))
     pygame.draw.rect(WIN, BLACK, BARRIER)
 
@@ -53,6 +59,11 @@ def draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_hea
     WIN.blit(yellow_health_text, (10, 10))
     WIN.blit(YELLOW_SPACESHIP, (yellow.x, yellow.y))
     WIN.blit(RED_SPACESHIP, (red.x, red.y))
+
+    pygame.draw.rect(WIN, BLACK, yellow_health_bar_backside)
+    pygame.draw.rect(WIN, RED, yellow_health_bar)
+    pygame.draw.rect(WIN, BLACK, red_health_bar_backside)
+    pygame.draw.rect(WIN, RED, red_health_bar)
 
     for bullet in red_bullets:
         pygame.draw.rect(WIN, RED, bullet)
@@ -117,6 +128,7 @@ def draw_winner(text):
     pygame.display.update()
     pygame.time.delay(5000)
 
+
 def main():
     clock = pygame.time.Clock()
     run = True
@@ -161,8 +173,6 @@ def main():
 
         if yellow_health <= 0:
             winner_text = "RED WINS!"
-
-
 
         keys_pressed = pygame.key.get_pressed()
         return_to_positions(keys_pressed, yellow, red)
