@@ -31,9 +31,13 @@ BARRIER = pygame.Rect((WIDTH - 10) / 2, 0, 10, HEIGHT)
 
 YELLOW_SPACESHIP_IMAGE = pygame.image.load(os.path.join("Assets", "spaceship_yellow.png"))
 YELLOW_SPACESHIP = pygame.transform.rotate(pygame.transform.scale(YELLOW_SPACESHIP_IMAGE, (SPACESHIP_WIDTH, SPACESHIP_HEIGHT)), 90)
+YELLOW_GLOW = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "yellow_glow.png")),
+                                     (SPACESHIP_HEIGHT + 10, SPACESHIP_WIDTH + 10))
 
 RED_SPACESHIP_IMAGE = pygame.image.load(os.path.join("Assets", "spaceship_red.png"))
 RED_SPACESHIP = pygame.transform.rotate(pygame.transform.scale(RED_SPACESHIP_IMAGE, (SPACESHIP_WIDTH, SPACESHIP_HEIGHT)), -90)
+RED_GLOW = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "red_glow.png")),
+                                  (SPACESHIP_HEIGHT + 10, SPACESHIP_WIDTH + 10))
 
 BACKGROUND = pygame.image.load(os.path.join("Assets", "space.png"))
 BACKGROUND = pygame.transform.scale(BACKGROUND, (WIDTH, HEIGHT))
@@ -60,7 +64,9 @@ def draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_hea
 
     WIN.blit(red_health_text, (WIDTH - red_health_text.get_width() - 10, 10))
     WIN.blit(yellow_health_text, (10, 10))
+    WIN.blit(YELLOW_GLOW, (yellow.x - 10, yellow.y))
     WIN.blit(YELLOW_SPACESHIP, (yellow.x, yellow.y))
+    WIN.blit(RED_GLOW, (red.x, red.y))
     WIN.blit(RED_SPACESHIP, (red.x, red.y))
 
     pygame.draw.rect(WIN, BLACK, yellow_health_bar_backside)
