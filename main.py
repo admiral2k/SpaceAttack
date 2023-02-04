@@ -128,7 +128,11 @@ def handle_bullets(yellow_bullets, red_bullets, yellow, red):
 def draw_winner(text):
     WIN.blit(WINNER_BLACKOUT, (0, 0))
     draw_text = WINNER_FONT.render(text, True, WHITE)
-    WIN.blit(draw_text, (WIDTH/2 - draw_text.get_width()/2, HEIGHT/2 - draw_text.get_height()/2))
+    WIN.blit(draw_text, (WIDTH/2 - draw_text.get_width()/2, HEIGHT/2 - draw_text.get_height()/2 - 50))
+    if text.split()[0] == "YELLOW":
+        WIN.blit(YELLOW_SPACESHIP, (WIDTH / 2 - SPACESHIP_WIDTH / 2, HEIGHT / 2 + 50))
+    if text.split()[0] == "RED":
+        WIN.blit(RED_SPACESHIP, (WIDTH/2 - SPACESHIP_WIDTH/2, HEIGHT/2 + 50))
     pygame.display.update()
     pygame.time.delay(5000)
 
