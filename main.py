@@ -36,7 +36,10 @@ RED_SPACESHIP_IMAGE = pygame.image.load(os.path.join("Assets", "spaceship_red.pn
 RED_SPACESHIP = pygame.transform.rotate(pygame.transform.scale(RED_SPACESHIP_IMAGE, (SPACESHIP_WIDTH, SPACESHIP_HEIGHT)), -90)
 
 BACKGROUND = pygame.image.load(os.path.join("Assets", "space.png"))
-BACKGROUND = pygame.transform.scale(BACKGROUND, (900, 500))
+BACKGROUND = pygame.transform.scale(BACKGROUND, (WIDTH, HEIGHT))
+
+WINNER_BLACKOUT = pygame.image.load(os.path.join("Assets", "black_alpha.png"))
+WINNER_BLACKOUT = pygame.transform.scale(WINNER_BLACKOUT, (WIDTH, HEIGHT))
 
 BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join("Assets", "Grenade+1.mp3"))
 BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join("Assets", "Gun+Silencer.mp3"))
@@ -123,6 +126,7 @@ def handle_bullets(yellow_bullets, red_bullets, yellow, red):
 
 
 def draw_winner(text):
+    WIN.blit(WINNER_BLACKOUT, (0, 0))
     draw_text = WINNER_FONT.render(text, True, WHITE)
     WIN.blit(draw_text, (WIDTH/2 - draw_text.get_width()/2, HEIGHT/2 - draw_text.get_height()/2))
     pygame.display.update()
