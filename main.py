@@ -3,14 +3,14 @@ import os
 
 pygame.font.init()
 pygame.mixer.init()
-
+print(pygame.font.get_fonts())
 FPS = 60
 WIDTH, HEIGHT = 900, 500
 VELOCITY = 5
 SPACESHIP_WIDTH, SPACESHIP_HEIGHT = 55, 40
 
 MAX_HEALTH = 10
-HEALTH_FONT = pygame.font.SysFont("arial", 40, True)
+HEALTH_FONT = pygame.font.Font(os.path.join("Assets", "upheavtt.ttf"), 40)
 WINNER_FONT = pygame.font.SysFont("Arial", 100, True)
 
 YELLOW_HIT = pygame.USEREVENT + 1
@@ -46,8 +46,14 @@ BACKGROUND = pygame.transform.scale(BACKGROUND, (WIDTH, HEIGHT))
 WINNER_BLACKOUT = pygame.image.load(os.path.join("Assets", "black_alpha.png"))
 WINNER_BLACKOUT = pygame.transform.scale(WINNER_BLACKOUT, (WIDTH, HEIGHT))
 
+YELLOW_BULLET = pygame.image.load(os.path.join("Assets", "yellow_bullet.png"))
+YELLOW_BULLET = pygame.transform.scale(YELLOW_BULLET, (20, 12))
+RED_BULLET = pygame.image.load(os.path.join("Assets", "red_bullet.png"))
+RED_BULLET = pygame.transform.rotate(pygame.transform.scale(RED_BULLET, (20, 12)), 180)
+
 BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join("Assets", "hit.wav"))
 BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join("Assets", "laser_shoot.wav"))
+EXPLOSION_SOUND = pygame.mixer.Sound(os.path.join("Assets", "explosion.wav"))
 
 
 def draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_health):
@@ -60,8 +66,8 @@ def draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_hea
     WIN.blit(BACKGROUND, (0, 0))
     WIN.blit(BARRIER_IMAGE, (BARRIER.x - BARRIER.width - 10, BARRIER.y))
 
-    red_health_text = HEALTH_FONT.render("Health:" + str(red_health), True, RED)
-    yellow_health_text = HEALTH_FONT.render("Health:" + str(yellow_health), True, YELLOW)
+    red_health_text = HEALTH_FONT.render("Health: " + str(red_health), True, RED)
+    yellow_health_text = HEALTH_FONT.render("Health: " + str(yellow_health), True, YELLOW)
 
     WIN.blit(red_health_text, (WIDTH - red_health_text.get_width() - 10, 10))
     WIN.blit(yellow_health_text, (10, 10))
@@ -75,11 +81,15 @@ def draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_hea
     pygame.draw.rect(WIN, BLACK, red_health_bar_backside)
     pygame.draw.rect(WIN, RED, red_health_bar)
 
-    for bullet in red_bullets:
-        pygame.draw.rect(WIN, RED, bullet)
-
     for bullet in yellow_bullets:
-        pygame.draw.rect(WIN, YELLOW, bullet)
+        #pygame.draw.rect(WIN, RED, bullet) #HITBOX
+        WIN.blit(YELLOW_BULLET, (bullet.x - (RED_BULLET.get_width() - bullet.width), bullet.y - (RED_BULLET.get_height() - bullet.height)))
+
+
+    for bullet in red_bullets:
+        #pygame.draw.rect(WIN, YELLOW, bullet) #HITBOX
+        WIN.blit(RED_BULLET, (bullet.x, bullet.y))
+
     pygame.display.update()
 
 
@@ -197,6 +207,7 @@ def main():
         draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_health)
 
         if winner_text:
+            EXPLOSION_SOUND.play()
             draw_winner(winner_text)
             break
 
