@@ -3,7 +3,7 @@ import os
 
 pygame.font.init()
 pygame.mixer.init()
-print(pygame.font.get_fonts())
+
 FPS = 60
 WIDTH, HEIGHT = 900, 500
 VELOCITY = 5
@@ -55,6 +55,9 @@ BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join("Assets", "hit.wav"))
 BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join("Assets", "laser_shoot.wav"))
 EXPLOSION_SOUND = pygame.mixer.Sound(os.path.join("Assets", "explosion.wav"))
 
+BULLET_HIT_SOUND.set_volume(0.7)
+BULLET_FIRE_SOUND.set_volume(0.225)
+EXPLOSION_SOUND.set_volume(0.7)
 
 def draw_window(yellow, red, yellow_bullets, red_bullets, yellow_health, red_health):
     yellow_health_bar_backside = pygame.Rect(yellow.x, yellow.y + yellow.height + 5, yellow.width, 5)
